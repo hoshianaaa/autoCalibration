@@ -1,0 +1,15 @@
+
+#!/usr/bin/env bash
+
+echo ""
+echo "Bring up the usb modules connection"
+echo ""
+
+sudo cp ../cfg/70-dobot.rules /etc/udev/rules.d
+
+echo ""
+echo "Restarting udev"
+echo ""
+
+sudo service udev reload
+sudo service udev restart

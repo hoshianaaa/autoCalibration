@@ -3,7 +3,7 @@
 # Author: Francis (Github @heretic1993)
 # License: MIT
 
-import import_ipynb
+#import import_ipynb
 import threading
 import time
 
@@ -12,7 +12,7 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 import cv2.aruco as aruco
-get_ipython().run_line_magic('matplotlib', 'inline')
+#get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 center=np.array([1, 2, 3], dtype='float64')
@@ -61,11 +61,8 @@ class cameraDetection (threading.Thread):
             # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
             depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
             # Stack both images horizontally
-#             images = np.hstack((color_image, depth_colormap))
 
             # Show images
-        #         cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-        #         cv2.imshow("RealSense", images)
         #         plt.figure(1)
         #         plt.subplot(121)
         #         plt.imshow(color_image)
@@ -75,13 +72,24 @@ class cameraDetection (threading.Thread):
 
             # Our operations on the frame come here
             gray = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY)
-            aruco_dict = aruco.Dictionary_get(aruco.DICT_ARUCO_ORIGINAL)
+            #aruco_dict = aruco.Dictionary_get(aruco.DICT_ARUCO_ORIGINAL)
+            aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
             parameters =  aruco.DetectorParameters_create()
+
+            cv2.imshow("gray", gray)
 
             #lists of ids and the corners beloning to each id
             corners, ids, rejectedImgPoints = aruco.detectMarkers(gray, aruco_dict, parameters=parameters)
-        #         print(corners)
+            print(corners)
+            color_image = aruco.drawDetectedMarkers(color_image, corners, ids, (0,255,0))
+
+            images = np.hstack((color_image, depth_colormap))
+
+            cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+            cv2.imshow("RealSense", images)
+
             if len(corners)!=0:
+                print(corners,ids)
                 point = np.average(corners[0][0], axis=0)
                 depth = depth_frame.get_distance(point[0], point[1])
                 point = np.append(point,depth)
@@ -96,8 +104,8 @@ class cameraDetection (threading.Thread):
                     ## and example: https://github.com/IntelRealSense/librealsense/wiki/Projection-in-RealSense-SDK-2.0#point-coordinates
                     x,y,z=rs.rs2_deproject_pixel_to_point(color_intrinsics, [x, y], z)
                     center=[x,y,z]
-#                     print(center)
-                    color_image = aruco.drawDetectedMarkers(color_image, corners)
+                    print(center)
+                    #color_image = aruco.drawDetectedMarkers(color_image, corners)
                     
 #                     cv2.imwrite('./color.jpg',color_image)
 
@@ -106,8 +114,8 @@ class cameraDetection (threading.Thread):
 #             print("about to show!")
 #             cv2.startWindowThread()
         ## if uncommented, crash!!!
-#             cv2.namedWindow('Detection', cv2.WINDOW_AUTOSIZE)
-#             cv2.imshow("Detection", color_image)
+            #cv2.namedWindow('Detection', cv2.WINDOW_AUTOSIZE)
+            #cv2.imshow("Detection", color_image)
 #             cv2.waitKey(1)
 
 

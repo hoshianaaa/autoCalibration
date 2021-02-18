@@ -12,9 +12,8 @@ from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 from IPython import display
-# Dobot manipulation
-import DobotDllType as dType
 
+from lib.dobot import Dobot
 
 
 thread1 = ra.cameraDetection(1, "rsArucoDetection")
@@ -43,6 +42,7 @@ if thread2.isAlive()==False:
 
 
 #dobot init
+"""
 CON_STR = {
     dType.DobotConnect.DobotConnect_NoError:  "DobotConnect_NoError",
     dType.DobotConnect.DobotConnect_NotFound: "DobotConnect_NotFound",
@@ -64,6 +64,7 @@ dType.SetHOMEParams(api,217,0,154,0)
 
 # reset to home position
 # dType.SetHOMECmd(api, temp = 0, isQueued = 1)
+"""
 
 # Calibration points
 default_cali_points = [[180,-120,135,0],[270,-120,135,0],
@@ -75,8 +76,8 @@ arm_cord = np.column_stack((np_cali_points[:,0:3], np.ones(np_cali_points.shape[
 
 
 # clear queue
-dType.SetQueuedCmdClear(api)
-dType.SetQueuedCmdStartExec(api)
+#dType.SetQueuedCmdClear(api)
+#dType.SetQueuedCmdStartExec(api)
 
 centers=np.ones(arm_cord.shape)
 
@@ -85,8 +86,8 @@ for ind,pt in enumerate(default_cali_points):
 #     dType.SetQueuedCmdStopExec(api)
 #     dType.SetQueuedCmdClear(api)
     queuedCmdIndex = dType.SetPTPCmd(api, 1, pt[0], pt[1], pt[2], pt[3], isQueued=0);
-    while dType.GetQueuedCmdCurrentIndex(api) != queuedCmdIndex:
-        time.sleep(1)
+    #while dType.GetQueuedCmdCurrentIndex(api) != queuedCmdIndex:
+    #    time.sleep(1)
     time.sleep(2)
     centers[0:3,ind]=ra.center
     print(ra.center)
@@ -94,8 +95,8 @@ for ind,pt in enumerate(default_cali_points):
 
 image_to_arm = np.dot(arm_cord, np.linalg.pinv(centers))
 arm_to_image = np.linalg.pinv(image_to_arm)
-dType.SetPTPCmd(api, 1, 217,0,154,0, isQueued=0);
-dType.SetQueuedCmdStopExec(api);
+#dType.SetPTPCmd(api, 1, 217,0,154,0, isQueued=0);
+#dType.SetQueuedCmdStopExec(api);
 
 print("Finished")
 print("Image to arm transform:\n", image_to_arm)
