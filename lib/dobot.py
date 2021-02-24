@@ -13,8 +13,8 @@ class Dobot:
 
         self.interface.set_point_to_point_jump_params(10, 10)
         self.interface.set_point_to_point_joint_params([50, 50, 50, 50], [50, 50, 50, 50])
-        self.interface.set_point_to_point_coordinate_params(50, 50, 50, 50)
-        self.interface.set_point_to_point_common_params(50, 50)
+        self.interface.set_point_to_point_coordinate_params(400, 400, 400, 400)
+        self.interface.set_point_to_point_common_params(100, 100)
         self.interface.set_point_to_point_jump2_params(5, 5, 5)
 
         self.interface.set_jog_joint_params([50, 50, 50, 50], [50, 50, 50, 50])
