@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.abspath('.'))
 from lib.dobot import Dobot
 
 bot = Dobot('/dev/dobot')
+bot.set_homing_parameters(217,0,154,0)
 bot.home()
 pose = bot.get_pose()
 print('pose:',pose)

@@ -42,6 +42,10 @@ if thread2.isAlive()==False:
 
 
 #dobot init
+
+
+bot = Dobot('/dev/dobot')
+bot.set_home
 """
 CON_STR = {
     dType.DobotConnect.DobotConnect_NoError:  "DobotConnect_NoError",
