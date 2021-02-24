@@ -45,7 +45,8 @@ if thread2.isAlive()==False:
 
 
 bot = Dobot('/dev/dobot')
-bot.set_home
+bot.set_homing_parameters(217,0,154,0)
+bot.home()
 """
 CON_STR = {
     dType.DobotConnect.DobotConnect_NoError:  "DobotConnect_NoError",
@@ -92,6 +93,8 @@ for ind,pt in enumerate(default_cali_points):
     #queuedCmdIndex = dType.SetPTPCmd(api, 1, pt[0], pt[1], pt[2], pt[3], isQueued=0);
     #while dType.GetQueuedCmdCurrentIndex(api) != queuedCmdIndex:
     #    time.sleep(1)
+
+    bot.move_to( pt[0], pt[1], pt[2], pt[3] )
 
     time.sleep(2)
     centers[0:3,ind]=ra.center

@@ -37,6 +37,9 @@ class Dobot:
     def set_homing_parameters(self, x, y, z, r, queue=True):
         return self.interface.set_homing_parameters(x,y,z,r)
 
+    def get_end_effector_params(self):
+        return self.interface.get_end_effector_params();
+
     # Move to the absolute coordinate, one axis at a time
     def move_to(self, x, y, z, r, wait=True):
         self.interface.set_point_to_point_command(2, x, y, z, r)
