@@ -40,7 +40,7 @@ parsers = {
     41: [lambda x: x[0] == 1, None, None, lambda x: list(struct.pack('<B', *x))],
     42: [lambda x: x[0] == 1, None, None, None],
     # End effector
-    60: [lambda x: struct.unpack('<' + 'f' * 3, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'f' * 4, *x))],
+    60: [lambda x: struct.unpack('<' + 'f' * 3, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'f' * 3, *x))],
     61: [lambda x: (x[0] == 1, x[1] == 2), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<BB', *x))],
     62: [lambda x: (x[0] == 1, x[1] == 2), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<BB', *x))],
     63: [lambda x: (x[0] == 1, x[1] == 2), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<BB', *x))],

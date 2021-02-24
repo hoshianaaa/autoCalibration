@@ -2,20 +2,13 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath('.'))
 
-from lib.interface import Interface
+from lib.dobot import Dobot
 
-bot = Interface('/dev/dobot')
-
-print('Bot status:', 'connected' if bot.connected() else 'not connected')
-
-params = bot.get_homing_paramaters()
-print('Params:', params)
-
-print('Homing')
-#bot.set_homing_command(0)
-bot.set_homing_parameters(250, 0, 0, 0)
-params = bot.get_homing_paramaters()
-print(params)
-
-params = bot.get_end_effector_params()
-print(params)
+bot = Dobot('/dev/dobot')
+bot.home()
+pose = bot.get_pose()
+print('pose:',pose)
+bot.move_to(250,0,40,0)
+pose = bot.get_pose()
+print('pose:',pose)
+print(bot.get_end_effector_params())

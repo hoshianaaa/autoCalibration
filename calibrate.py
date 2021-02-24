@@ -85,9 +85,10 @@ for ind,pt in enumerate(default_cali_points):
     print("Current points:", pt)
 #     dType.SetQueuedCmdStopExec(api)
 #     dType.SetQueuedCmdClear(api)
-    queuedCmdIndex = dType.SetPTPCmd(api, 1, pt[0], pt[1], pt[2], pt[3], isQueued=0);
+    #queuedCmdIndex = dType.SetPTPCmd(api, 1, pt[0], pt[1], pt[2], pt[3], isQueued=0);
     #while dType.GetQueuedCmdCurrentIndex(api) != queuedCmdIndex:
     #    time.sleep(1)
+
     time.sleep(2)
     centers[0:3,ind]=ra.center
     print(ra.center)

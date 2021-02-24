@@ -36,7 +36,7 @@ class Dobot:
 
     # Move to the absolute coordinate, one axis at a time
     def move_to(self, x, y, z, r, wait=True):
-        self.interface.set_point_to_point_command(3, x, y, z, r)
+        self.interface.set_point_to_point_command(2, x, y, z, r)
         if wait:
             self.wait()
 
