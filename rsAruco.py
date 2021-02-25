@@ -80,7 +80,7 @@ class cameraDetection (threading.Thread):
 
             #lists of ids and the corners beloning to each id
             corners, ids, rejectedImgPoints = aruco.detectMarkers(gray, aruco_dict, parameters=parameters)
-            print(corners)
+            #print(corners)
             color_image = aruco.drawDetectedMarkers(color_image, corners, ids, (0,255,0))
 
             images = np.hstack((color_image, depth_colormap))
@@ -89,7 +89,7 @@ class cameraDetection (threading.Thread):
             cv2.imshow("RealSense", images)
 
             if len(corners)!=0:
-                print(corners,ids)
+                #print(corners,ids)
                 point = np.average(corners[0][0], axis=0)
                 depth = depth_frame.get_distance(point[0], point[1])
                 point = np.append(point,depth)
@@ -104,7 +104,7 @@ class cameraDetection (threading.Thread):
                     ## and example: https://github.com/IntelRealSense/librealsense/wiki/Projection-in-RealSense-SDK-2.0#point-coordinates
                     x,y,z=rs.rs2_deproject_pixel_to_point(color_intrinsics, [x, y], z)
                     center=[x,y,z]
-                    print(center)
+                    #print(center)
                     #color_image = aruco.drawDetectedMarkers(color_image, corners)
                     
 #                     cv2.imwrite('./color.jpg',color_image)

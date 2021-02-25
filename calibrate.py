@@ -15,6 +15,8 @@ from IPython import display
 
 from lib.dobot import Dobot
 
+from scipy.spatial import distance
+
 
 thread1 = ra.cameraDetection(1, "rsArucoDetection")
 
@@ -72,10 +74,11 @@ dType.SetHOMEParams(api,217,0,154,0)
 """
 
 # Calibration points
-default_cali_points = [[180,-120,135,0],[270,-120,135,0],
-                       [180,120,135,0],[270,120,135,0],
-                       [270,120,-5,0],[180,120,-5,0],
-                       [180,-120,-5,0],[270,-120,-5,0]]
+default_cali_points = [[180,-120,135,0],[260,-120,135,0],
+                       [180,120,135,0],[260,120,135,0],
+                       [260,120,-5,0],[180,120,-5,0],
+                       [180,-120,-5,0],[260,-120,-5,0]]
+
 np_cali_points = np.array(default_cali_points)
 arm_cord = np.column_stack((np_cali_points[:,0:3], np.ones(np_cali_points.shape[0]).T)).T
 
@@ -98,6 +101,7 @@ for ind,pt in enumerate(default_cali_points):
 
     time.sleep(2)
     centers[0:3,ind]=ra.center
+    time.sleep(1)
     print(ra.center)
     
 
@@ -105,6 +109,7 @@ image_to_arm = np.dot(arm_cord, np.linalg.pinv(centers))
 arm_to_image = np.linalg.pinv(image_to_arm)
 #dType.SetPTPCmd(api, 1, 217,0,154,0, isQueued=0);
 #dType.SetQueuedCmdStopExec(api);
+bot.move_to( 217, 0, 154, 0 )
 
 print("Finished")
 print("Image to arm transform:\n", image_to_arm)
@@ -114,15 +119,32 @@ print("Sanity Test:")
 print("-------------------")
 print("Image_to_Arm")
 print("-------------------")
+d_list = []
 for ind, pt in enumerate(centers.T):
-    print("Expected:", default_cali_points[ind][0:3])
-    print("Result:", np.dot(image_to_arm, np.array(pt))[0:3])
+    x = default_cali_points[ind][0:3]
+    y = np.dot(image_to_arm, np.array(pt))[0:3]
+    print("Expected:", x)
+    print("Result:", y)
+    d = distance.euclidean(x, y)
+    print(d)
+    d_list.append(d)
+
+print("error_mean:",sum(d_list)/len(d_list))
+    
     
 print("-------------------")
 print("Arm_to_Image")
 print("-------------------")
+#d_list = []
 for ind, pt in enumerate(default_cali_points):
-    print("Expected:", centers.T[ind][0:3])
+    x = centers.T[ind][0:3]
+    y = np.dot(arm_to_image, np.array(pt))[0:3]
+    print("Expected:", x)
     pt[3]=1
-    print("Result:", np.dot(arm_to_image, np.array(pt))[0:3])
+    print("Result:", y)
+#    d = distance.euclidean(x, y)
+#    print(d)
+#    d_list.append(d)
+ 
+#print("error_mean:",sum(d_list)/len(d_list))
 
