@@ -45,10 +45,10 @@ bot.set_homing_parameters(217,0,154,0)
 #bot.home()
 
 while True:
-  print("wait")
-  time.sleep(3)
+  #print("wait")
+  #time.sleep(3)
 
-  print("scan")
+  #print("scan")
 
   pt = ra.center
   pt = np.append(pt,1)
@@ -61,11 +61,11 @@ while True:
 
   if(valid_pt(target)):
     print("valid coordinate")
-    print("wait")
-    time.sleep(1)
-    bot.move_to( target[0], target[1], target[2] + 50, 0 )
-    bot.move_to( target[0], target[1], target[2], 0 )
-    bot.move_to( target[0], target[1], target[2] + 50, 0 )
-    bot.move_to( 217, 0, 154, 0 )
+    #print("wait")
+    #time.sleep(1)
+    #bot.move_to( target[0], target[1], target[2] + 50, 0 )
+    #bot.move_to( target[0], target[1], target[2], 0 )
+    #bot.move_to( target[0], target[1], target[2] + 50, 0 )
+    #bot.move_to( 217, 0, 154, 0 )
   else:
     print("invaid coordinate")

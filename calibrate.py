@@ -29,8 +29,6 @@ def showImg():
     
 thread2 = threading.Thread(target=showImg)
 
-
-
 # start to find aruco code
 if thread1.isAlive()==False:
     print("camera starts!")
@@ -47,11 +45,16 @@ if thread2.isAlive()==False:
 
 
 bot = Dobot('/dev/dobot')
-bot.set_homing_parameters(217,0,125,0)
+bot.set_homing_parameters(217,0,100,0)
 bot.home()
+bot.gripper_open()
+time.sleep(5)
+bot.gripper_close()
+time.sleep(5)
+
 # Calibration points
-default_cali_points = [[180,-120,125,0],[260,-120,125,0],
-                       [180,120,125,0],[260,120,125,0],
+default_cali_points = [[180,-100,70,0],[260,-100,70,0],
+                       [180,100,70,0],[260,100,70,0],
                        [260,120,-5,0],[180,120,-5,0],
                        [180,-120,-5,0],[260,-120,-5,0]]
 
@@ -105,6 +108,8 @@ for ind, pt in enumerate(centers.T):
     d_list.append(d)
 
 print("error_mean:",sum(d_list)/len(d_list))
+
+bot.gripper_off()
     
     
 """

@@ -98,3 +98,14 @@ class Dobot:
         self.interface.start_queue()
         if wait:
             self.wait(queue_index)
+
+    def gripper_close(self):
+        self.interface.set_end_effector_gripper(1, 1)
+
+    def gripper_open(self):
+        self.interface.set_end_effector_gripper(1, 0)
+
+    def gripper_off(self):
+        self.interface.set_end_effector_gripper(0, 0)
+
+

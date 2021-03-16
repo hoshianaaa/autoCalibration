@@ -9,6 +9,13 @@ bot = Dobot('/dev/dobot')
 bot.set_homing_parameters(217,0,134,0)
 bot.home()
 bot.move_to(217,0,154,0)
+bot.gripper_close()
+time.sleep(3)
+bot.gripper_open()
+time.sleep(3)
+bot.gripper_off()
+time.sleep(3)
+
 print(bot.get_end_effector_params())
 
 default_cali_points = [[180,-120,135,0],[260,-120,135,0],
