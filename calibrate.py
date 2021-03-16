@@ -47,35 +47,11 @@ if thread2.isAlive()==False:
 
 
 bot = Dobot('/dev/dobot')
-bot.set_homing_parameters(217,0,154,0)
+bot.set_homing_parameters(217,0,125,0)
 bot.home()
-"""
-CON_STR = {
-    dType.DobotConnect.DobotConnect_NoError:  "DobotConnect_NoError",
-    dType.DobotConnect.DobotConnect_NotFound: "DobotConnect_NotFound",
-    dType.DobotConnect.DobotConnect_Occupied: "DobotConnect_Occupied"}
-
-#Load Dll
-api = dType.load()
-
-
-# Search 
-# print(dType.SearchDobot(api))
-#Connect Dobot
-state = dType.ConnectDobot(api, "", 115200)[0]
-
-print("Connect status:",CON_STR[state])
-
-#set home postion
-dType.SetHOMEParams(api,217,0,154,0)
-
-# reset to home position
-# dType.SetHOMECmd(api, temp = 0, isQueued = 1)
-"""
-
 # Calibration points
-default_cali_points = [[180,-120,135,0],[260,-120,135,0],
-                       [180,120,135,0],[260,120,135,0],
+default_cali_points = [[180,-120,125,0],[260,-120,125,0],
+                       [180,120,125,0],[260,120,125,0],
                        [260,120,-5,0],[180,120,-5,0],
                        [180,-120,-5,0],[260,-120,-5,0]]
 
@@ -109,12 +85,11 @@ image_to_arm = np.dot(arm_cord, np.linalg.pinv(centers))
 arm_to_image = np.linalg.pinv(image_to_arm)
 #dType.SetPTPCmd(api, 1, 217,0,154,0, isQueued=0);
 #dType.SetQueuedCmdStopExec(api);
-bot.move_to( 217, 0, 154, 0 )
+bot.move_to( 217, 0, 125, 0 )
 
 print("Finished")
 print("Image to arm transform:\n", image_to_arm)
-print("Arm to Image transform:\n", arm_to_image)
-print("Sanity Test:")
+print("Image to arm transform list :\n", image_to_arm.tolist())
 
 print("-------------------")
 print("Image_to_Arm")
@@ -132,6 +107,7 @@ for ind, pt in enumerate(centers.T):
 print("error_mean:",sum(d_list)/len(d_list))
     
     
+"""
 print("-------------------")
 print("Arm_to_Image")
 print("-------------------")
@@ -148,3 +124,4 @@ for ind, pt in enumerate(default_cali_points):
  
 #print("error_mean:",sum(d_list)/len(d_list))
 
+"""

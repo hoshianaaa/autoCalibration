@@ -6,8 +6,8 @@ import time
 from lib.dobot import Dobot
 
 bot = Dobot('/dev/dobot')
-bot.set_homing_parameters(217,0,154,0)
-#bot.home()
+bot.set_homing_parameters(217,0,134,0)
+bot.home()
 bot.move_to(217,0,154,0)
 print(bot.get_end_effector_params())
 
