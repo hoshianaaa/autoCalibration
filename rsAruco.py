@@ -76,7 +76,7 @@ class cameraDetection (threading.Thread):
             aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
             parameters =  aruco.DetectorParameters_create()
 
-            cv2.imshow("gray", gray)
+            #cv2.imshow("gray", gray)
 
             #lists of ids and the corners beloning to each id
             corners, ids, rejectedImgPoints = aruco.detectMarkers(gray, aruco_dict, parameters=parameters)

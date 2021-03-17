@@ -108,4 +108,11 @@ class Dobot:
     def gripper_off(self):
         self.interface.set_end_effector_gripper(0, 0)
 
+    def suc_on(self):
+        self.interface.set_end_effector_suction_cup(1, 1)
+
+    def suc_off(self):
+        self.interface.set_end_effector_suction_cup(1, 0)
+
+
 

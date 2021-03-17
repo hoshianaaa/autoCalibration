@@ -47,16 +47,17 @@ if thread2.isAlive()==False:
 bot = Dobot('/dev/dobot')
 bot.set_homing_parameters(217,0,100,0)
 bot.home()
-bot.gripper_open()
-time.sleep(5)
-bot.gripper_close()
+#bot.gripper_open()
+#time.sleep(5)
+#bot.gripper_close()
+bot.suc_on()
 time.sleep(5)
 
 # Calibration points
-default_cali_points = [[180,-100,70,0],[260,-100,70,0],
-                       [180,100,70,0],[260,100,70,0],
-                       [260,120,-5,0],[180,120,-5,0],
-                       [180,-120,-5,0],[260,-120,-5,0]]
+default_cali_points = [[180,-100,30,0],[260,-100,30,0],
+                       [180,100,30,0],[260,100,30,0],
+                       [260,120,-30,0],[180,120,-30,0],
+                       [180,-120,-30,0],[260,-120,-30,0]]
 
 np_cali_points = np.array(default_cali_points)
 arm_cord = np.column_stack((np_cali_points[:,0:3], np.ones(np_cali_points.shape[0]).T)).T
@@ -109,7 +110,8 @@ for ind, pt in enumerate(centers.T):
 
 print("error_mean:",sum(d_list)/len(d_list))
 
-bot.gripper_off()
+#bot.gripper_off()
+bot.suc_off()
     
     
 """

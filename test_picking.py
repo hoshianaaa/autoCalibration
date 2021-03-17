@@ -16,7 +16,7 @@ x_min = 180
 x_max = 260
 y_min = -100
 y_max = 100
-z_min = -20
+z_min = -60
 z_max = 100
 
 def valid_pt(pt):
@@ -27,9 +27,22 @@ def valid_pt(pt):
 
   return False
 
+def pick_up(pos):
+    bot.move_to( pos[0], pos[1], pos[2] + 30, 0 )
+    bot.move_to( pos[0], pos[1], pos[2] - 2, 0 )
+    bot.suc_on()
+    time.sleep(1)
+    bot.move_to( pos[0], pos[1], pos[2] + 30, 0 )
+
+def place(pos):
+    bot.move_to( pos[0], pos[1], pos[2] + 30, 0 )
+    bot.move_to( pos[0], pos[1], pos[2], 0 )
+    bot.suc_off()
+    time.sleep(1)
+    bot.move_to( pos[0], pos[1], pos[2] + 30, 0 )
 
 ### input calibration result ###
-image_to_arm = [[78.74290364330686, 898.8805858748223, -395.16061310803207, 385.1951642424718], [976.8638451909984, -57.00955755166629, 47.52067042333153, -26.849053417368566], [22.958992016166274, -409.39970429420066, -913.4520402840946, 378.86352312168736], [1.3322676295501878e-15, 5.329070518200751e-15, -1.7763568394002505e-15, 1.0000000000000007]]
+image_to_arm =   [[-26.239127019560645, 933.407153515323, -340.52739510876444, 380.05895055467505], [976.7883127139744, 13.032098127671276, -25.712268548712153, 2.5027129395039545], [-30.53449372506436, -338.27275577186344, -927.8996419314769, 389.1539650837111], [-2.220446049250313e-16, 0.0, 0.0, 1.0000000000000004]]
 image_to_arm = np.array(image_to_arm)
 ###############################
 
@@ -44,9 +57,15 @@ bot = Dobot('/dev/dobot')
 bot.set_homing_parameters(217,0,154,0)
 #bot.home()
 
+time.sleep(2)
+counter = 0
+
+g_pos = [40,261,-45,0]
+
 while True:
-  print("wait")
-  time.sleep(3)
+
+  #print("wait")
+  #time.sleep(2)
 
   print("scan")
 
@@ -55,17 +74,41 @@ while True:
 #print(pt)
 #print(image_to_arm)
 
-  target = np.dot(image_to_arm,pt.T)
-  target[0] = target[0] + 30
-  print(target)
+  t_pos = np.dot(image_to_arm,pt.T)
+  t_pos[0] = t_pos[0] + 40
+  print(t_pos)
 
-  if(valid_pt(target)):
+  if(valid_pt(t_pos)):
     print("valid coordinate")
-    print("wait")
     time.sleep(1)
-    bot.move_to( target[0], target[1], target[2] + 50, 0 )
-    bot.move_to( target[0], target[1], target[2], 0 )
-    bot.move_to( target[0], target[1], target[2] + 50, 0 )
-    bot.move_to( 217, 0, 154, 0 )
+
+    pick_up(t_pos)
+    
+    if (counter == 0):
+      place(g_pos)
+
+    elif (counter == 1):
+      g_pos[1] = g_pos[1] - 30
+      place(g_pos)
+
+    elif (counter <= 2):
+      g_pos[2] = g_pos[2] + 20
+      place(g_pos)
+
+    elif (counter == 3):
+      g_pos[1] = g_pos[1] - 30
+
+    elif (counter <= 5):
+      g_pos[2] = g_pos[2] + 20
+      place(g_pos)
+
+    counter = counter + 1
+
+    if (counter > 6):
+      bot.move_to( 217, 0, 154, 0 )
+      while True:
+        print("finish")
+        time.sleep(1)
+
   else:
     print("invaid coordinate")
